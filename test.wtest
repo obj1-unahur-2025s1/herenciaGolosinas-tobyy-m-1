@@ -1,0 +1,10 @@
+import golosinas.*
+import mariano.*
+
+describe "group of tests" {
+
+  test "test 1" {
+    assert.equals(100, 50+50)
+  }
+
+}
