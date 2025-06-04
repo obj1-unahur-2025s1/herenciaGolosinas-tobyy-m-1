@@ -2,14 +2,31 @@ import golosinas.*
 import mariano.*
 
 describe "grupo de test de Personas" {
-
-  test "sabores faltantes" {
-    const mariano = new Persona()
-    const unBombon = new Bombon()
-    const unAlfa = new Alfajor()
+  const mariano = new Persona()
+  const unBombon = new Bombon()
+  const bombonDuro = new BombonDuro()
+  const unAlfa = new Alfajor()
+  const tutiGluten = new Tuttifrutti(libreDeGluten = false)
+  const tuti = new Tuttifrutti(libreDeGluten = true)
+  const carameloRelleno = new CarameloRelleno()
+  const chocolatin = new Chocolatin(peso=40)
+  method initialize(){
     mariano.comprar(unBombon)
+    mariano.comprar(bombonDuro)
+  }
+
+  method comprarTuti(){
+    mariano.comprar(tuti)
+    mariano.comprar(tutiGluten)
+  }
+  test "sabores faltantes" {
     mariano.comprar(unAlfa)
     assert.equals([vainilla],mariano.saboresFaltantes([vainilla,chocolate, frutilla]))
+  }
+
+  test "golosina mas cara"{
+    self.comprarTuti()
+    assert.equals(tutiGluten, mariano.golosinaMasCara())
   }
 
 }
