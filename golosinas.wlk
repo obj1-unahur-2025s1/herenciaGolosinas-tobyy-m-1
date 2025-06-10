@@ -101,17 +101,47 @@ class Oblea inherits Golosina(peso = 250){
 	method sabor() { return vainilla }
 }
 
+class ObleaCrujiente inherits Oblea {
+	var mordiscos = 0
+	override method mordisco() {
+		peso = (peso * (1 - if (peso >= 70) 0.5
+		 else  0.25))- self.cantMordiscosBonus()
+		mordiscos +=1
+	}
+	method estaDebil() = mordiscos > 3
+	method cantMordiscosBonus() {
+		if (mordiscos < 3) {
+			return 1
+		} else {
+			return 0
+		}
+	}
+}
+
 class Chocolatin inherits Golosina{
 	// hay que acordarse de *dos* cosas, el peso inicial lo heredamos y el peso actual
 	// el precio se calcula a partir del precio inicial
 	// el mordisco afecta al peso actual
 	var comido = 0
-	
 	override method precio() { return peso * 0.50 }
 	override method peso() { return (peso - comido).max(0) }
 	method mordisco() { comido = comido + 2 }
 	method sabor() { return chocolate }
 
+}
+
+class ChocolatinVip inherits Chocolatin{
+	const humedad 
+	override method peso(){
+		return super() * (1+ humedad)
+	}
+}
+
+
+class ChocolatinPremium inherits ChocolatinVip{
+    override method peso() {
+        return (peso - comido).max(0) * (1 + (humedad / 2))
+    }
 }
 
 class GolosinaBaniada {

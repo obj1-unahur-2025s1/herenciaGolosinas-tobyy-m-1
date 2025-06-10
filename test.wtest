@@ -8,25 +8,81 @@ describe "grupo de test de Personas" {
   const unAlfa = new Alfajor()
   const tutiGluten = new Tuttifrutti(libreDeGluten = false)
   const tuti = new Tuttifrutti(libreDeGluten = true)
+  const oblea = new Oblea(peso = 30)
   const carameloRelleno = new CarameloRelleno()
-  const chocolatin = new Chocolatin(peso=40)
-  method initialize(){
+  const obleaCrujiente = new ObleaCrujiente(peso = 30)
+  const chocolatin = new Chocolatin(peso = 200, comido = 48)
+  const chocolatinVip = new ChocolatinVip(
+    comido = 48,
+    peso = 200,
+    humedad = 0.2
+  )
+  const chocolatinPremium = new ChocolatinPremium(
+    comido = 48,
+    peso = 200,
+    humedad = 0.2
+  )
+  
+  method initialize() {
     mariano.comprar(unBombon)
     mariano.comprar(bombonDuro)
   }
-
-  method comprarTuti(){
+  
+  method comprarTuti() {
     mariano.comprar(tuti)
     mariano.comprar(tutiGluten)
   }
+  
   test "sabores faltantes" {
     mariano.comprar(unAlfa)
-    assert.equals([vainilla],mariano.saboresFaltantes([vainilla,chocolate, frutilla]))
+    assert.equals(
+      [vainilla],
+      mariano.saboresFaltantes([vainilla, chocolate, frutilla])
+    )
   }
-
-  test "golosina mas cara"{
+  
+  test "golosina mas cara" {
     self.comprarTuti()
     assert.equals(tutiGluten, mariano.golosinaMasCara())
   }
-
+  
+  test "un caramelo relleno de frutilla pasa a ser de chocolate al recibir un mordisco" {
+    mariano.comprar(carameloRelleno)
+    carameloRelleno.mordisco()
+    assert.equals(chocolate, carameloRelleno.sabor())
+  }
+  
+  test "el peso de una oblea de 30 gramos luego de ser mordida 3 veces es 12.65625 gramos" {
+    mariano.comprar(oblea)
+    oblea.mordisco()
+    oblea.mordisco()
+    oblea.mordisco()
+    assert.equals(12.65625, oblea.peso())
+  }
+  
+  test "el peso de una oblea Crujiente de 30 gramos luego de ser mordida 3 veces es 10.34375 gramos" {
+    mariano.comprar(obleaCrujiente)
+    obleaCrujiente.mordisco()
+    obleaCrujiente.mordisco()
+    obleaCrujiente.mordisco()
+    assert.equals(10.34375, obleaCrujiente.peso())
+  }
+  
+  test "el peso de un chocolatin de 200 gramos luego de ser mordido 50 veces" {
+    mariano.comprar(chocolatin)
+    chocolatin.mordisco()
+    assert.equals(150, chocolatin.peso())
+  }
+  
+  test "el peso de un chocolatinVip de 200 gramos luego de ser mordido 50 veces con una humedad de 0.2" {
+    mariano.comprar(chocolatinVip)
+    chocolatinVip.mordisco()
+    assert.equals(180, chocolatinVip.peso())
+  }
+  
+  test "el peso de un chocolatinPremium de 200 gramos luego de ser mordido 50 veces con una humedad de 0.2" {
+    mariano.comprar(chocolatinPremium)
+    chocolatinPremium.mordisco()
+    assert.equals(165, chocolatinPremium.peso())
+  }
 }
